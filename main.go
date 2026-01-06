@@ -1,0 +1,3 @@
+package simplebank
+
+func main() {}
