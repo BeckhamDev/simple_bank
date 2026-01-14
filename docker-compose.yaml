@@ -1,0 +1,28 @@
+name: simple_bank
+
+services:
+  postgres:
+    image: postgres:17-alpine3.23
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: simple_bank
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d simple_bank"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_SOURCE: postgresql://postgres:root@postgres:5432/simple_bank?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
