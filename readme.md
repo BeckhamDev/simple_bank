@@ -1,0 +1,2 @@
+## Generate app container command
+* docker run --name simple_bank --network bank-network -p 8080:8080 -e DB_SOURCE="postgresql://postgres:root@postgres17:5432/simple_bank?sslmode=disable" simple_bank:latest
